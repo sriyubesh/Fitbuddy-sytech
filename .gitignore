@@ -1,0 +1,22 @@
+# Environments and Keys
+.env
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Test & coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Node & Build artifacts
+node_modules/
+dist/
+.DS_Store

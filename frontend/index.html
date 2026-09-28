@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FitBuddy - AI-Powered Fitness &amp; Fuel Blueprint</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header / Navigation -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand" id="brand-home-btn" role="button">
+        <div class="brand-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 4v16M18 4v16M2 8h4M18 8h4M2 16h4M18 16h4M6 12h12"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <div class="brand-title-wrap">
+            <span class="brand-title">FitBuddy</span>
+            <span class="brand-badge">AI COACH</span>
+          </div>
+          <span class="brand-sub">Smart 7-Day Fitness Planning</span>
+        </div>
+      </div>
+
+      <nav class="nav-links">
+        <button id="nav-builder-btn" class="nav-link active">Plan Builder</button>
+        <button id="nav-schedule-btn" class="nav-link" style="display: none;">Active Schedule</button>
+        <a href="#how-it-works" class="nav-link">How It Works</a>
+      </nav>
+
+      <div class="header-actions">
+        <button id="view-history-btn" class="btn-history" style="display: none;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
+          <span>History</span>
+          <span id="history-count" class="badge-count">0</span>
+        </button>
+        <button id="header-cta-btn" class="btn-cta-nav">
+          Start Plan
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-main">
+    <!-- Notification Toasts -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Onboarding / Planner Wizard Container -->
+    <div id="wizard-container" class="wizard-container">
+      <!-- Hero on Step 1 with Dumbbell Background -->
+      <section id="hero-banner" class="hero-section">
+        <img src="hero_dumbbell_bg.jpg" alt="Fitness Dumbbell Hero Background" referrerpolicy="no-referrer" class="hero-bg-img">
+        <div class="hero-bg-overlay"></div>
+        <div class="hero-glow"></div>
+        <div class="hero-content">
+          <div class="hero-pill">
+            <span class="pill-dot"></span>
+            PRECISION FITNESS ENGINE POWERED BY GOOGLE GEMINI AI
+          </div>
+          <h1 class="hero-title">
+            Personalized 7-Day <br>
+            <span class="gradient-text">Fitness &amp; Fuel Blueprint</span>
+          </h1>
+          <p class="hero-desc">
+            Enter your physical markers and goals. FitBuddy uses advanced exercise physiology models to build an adaptive, 7-day periodized schedule with sets, reps, and sports nutrition tailored to you.
+          </p>
+        </div>
+      </section>
+
+      <!-- Stepper Indicator -->
+      <div class="stepper-wrap">
+        <div class="stepper-labels">
+          <span id="step-label-1" class="step-label active">1. Biometrics</span>
+          <span id="step-label-2" class="step-label">2. Fitness Goal</span>
+          <span id="step-label-3" class="step-label">3. Preferences</span>
+        </div>
+        <div class="stepper-bar-bg">
+          <div id="stepper-bar-fill" class="stepper-bar-fill" style="width: 33.3%;"></div>
+        </div>
+      </div>
+
+      <!-- STEP 1: Biometrics & Profile Card -->
+      <section id="step-1-card" class="step-card">
+        <div class="step-header">
+          <div class="step-icon-wrap emerald">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
+          <div>
+            <h2 class="step-title">Step 1: Physical Assessment</h2>
+            <p class="step-desc">We calculate metabolic rate, intensity thresholds, and safe load volume from your biometrics.</p>
+          </div>
+        </div>
+
+        <form id="step-1-form" novalidate>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="name" class="form-label">Full Name <span class="req">*</span></label>
+              <input type="text" id="name" class="form-input" placeholder="e.g. Arun Kumar" value="Arun Kumar" required>
+              <span class="error-msg" id="name-error"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="age" class="form-label">Age (Years) <span class="req">*</span></label>
+              <input type="number" id="age" class="form-input" placeholder="23" min="12" max="120" value="23" required>
+              <span class="error-msg" id="age-error"></span>
+            </div>
+
+            <div class="form-group">
+              <div class="label-row">
+                <label for="weight" class="form-label">Current Weight (kg) <span class="req">*</span></label>
+                <span id="weight-val-preview" class="val-preview">68 kg</span>
+              </div>
+              <input type="number" step="0.5" id="weight" class="form-input" placeholder="68" min="20" max="400" value="68" required>
+              <span class="error-msg" id="weight-error"></span>
+            </div>
+
+            <div class="form-group">
+              <div class="label-row">
+                <label for="height" class="form-label">Height (cm) <span class="opt">(Optional)</span></label>
+                <span class="val-preview">175 cm</span>
+              </div>
+              <input type="number" id="height" class="form-input" placeholder="175" min="100" max="250" value="175">
+            </div>
+          </div>
+
+          <div class="step-actions right">
+            <button type="button" id="to-step-2-btn" class="btn-primary">
+              <span>Next: Select Goal</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- STEP 2: Goal Selection Cards -->
+      <section id="step-2-card" class="step-card" style="display: none;">
+        <div class="step-header">
+          <div class="step-icon-wrap cyan">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <circle cx="12" cy="12" r="6"></circle>
+              <circle cx="12" cy="12" r="2"></circle>
+            </svg>
+          </div>
+          <div>
+            <h2 class="step-title">Step 2: Choose Your Primary Focus</h2>
+            <p class="step-desc">Select what you want to achieve over this 7-day periodized training block.</p>
+          </div>
+        </div>
+
+        <div class="goal-cards-grid">
+          <div class="goal-card active" data-goal="Muscle Gain">
+            <div class="goal-card-top">
+              <div class="goal-icon emerald">🏋️‍♂️</div>
+              <div class="check-circle">✓</div>
+            </div>
+            <h3 class="goal-card-title">Muscle Gain</h3>
+            <span class="goal-card-tagline">Hypertrophy &amp; Overload</span>
+            <p class="goal-card-desc">Compound resistance, time under tension, and targeted muscle splits to build lean mass.</p>
+            <span class="goal-card-badge">High Protein / Surplus</span>
+          </div>
+
+          <div class="goal-card" data-goal="Weight Loss">
+            <div class="goal-card-top">
+              <div class="goal-icon rose">🏃</div>
+              <div class="check-circle">✓</div>
+            </div>
+            <h3 class="goal-card-title">Weight Loss</h3>
+            <span class="goal-card-tagline">Fat Oxidation &amp; Deficit</span>
+            <p class="goal-card-desc">High-density circuits, metabolic conditioning, and structured cardio to preserve lean tissue.</p>
+            <span class="goal-card-badge">Metabolic Conditioning</span>
+          </div>
+
+          <div class="goal-card" data-goal="General Fitness">
+            <div class="goal-card-top">
+              <div class="goal-icon cyan">⚡</div>
+              <div class="check-circle">✓</div>
+            </div>
+            <h3 class="goal-card-title">General Fitness</h3>
+            <span class="goal-card-tagline">Daily Vitality &amp; Mobility</span>
+            <p class="goal-card-desc">Balanced combination of strength, core stability, joint health, and aerobic endurance.</p>
+            <span class="goal-card-badge">Balanced Wellness</span>
+          </div>
+
+          <div class="goal-card" data-goal="Strength">
+            <div class="goal-card-top">
+              <div class="goal-icon amber">🛡️</div>
+              <div class="check-circle">✓</div>
+            </div>
+            <h3 class="goal-card-title">Maximal Strength</h3>
+            <span class="goal-card-tagline">Neuromuscular Power</span>
+            <p class="goal-card-desc">Heavy foundational compound barbell and dumbbell lifts with longer recovery intervals.</p>
+            <span class="goal-card-badge">Low Reps / High Load</span>
+          </div>
+
+          <div class="goal-card" data-goal="Endurance">
+            <div class="goal-card-top">
+              <div class="goal-icon blue">🚴</div>
+              <div class="check-circle">✓</div>
+            </div>
+            <h3 class="goal-card-title">Endurance</h3>
+            <span class="goal-card-tagline">Aerobic Capacity</span>
+            <p class="goal-card-desc">Sustained cardiovascular conditioning, high-rep sets, and active recovery for peak stamina.</p>
+            <span class="goal-card-badge">Aerobic Stamina</span>
+          </div>
+        </div>
+
+        <div class="step-actions between">
+          <button type="button" id="back-to-step-1-btn" class="btn-secondary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            <span>Back</span>
+          </button>
+          <button type="button" id="to-step-3-btn" class="btn-primary">
+            <span>Next: Training Preferences</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- STEP 3: Training Preferences -->
+      <section id="step-3-card" class="step-card" style="display: none;">
+        <div class="step-header">
+          <div class="step-icon-wrap amber">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="4" y1="21" x2="4" y2="14"></line>
+              <line x1="4" y1="10" x2="4" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12" y2="3"></line>
+              <line x1="20" y1="21" x2="20" y2="16"></line>
+              <line x1="20" y1="12" x2="20" y2="3"></line>
+              <line x1="1" y1="14" x2="7" y2="14"></line>
+              <line x1="9" y1="8" x2="15" y2="8"></line>
+              <line x1="17" y1="16" x2="23" y2="16"></line>
+            </svg>
+          </div>
+          <div>
+            <h2 class="step-title">Step 3: Training Preferences</h2>
+            <p class="step-desc">Calibrate exercise complexity, session intensity, and available training facilities.</p>
+          </div>
+        </div>
+
+        <!-- Intensity Selection -->
+        <div class="preference-section">
+          <label class="pref-label">Training Intensity Level</label>
+          <div class="pref-cards-grid">
+            <div class="pref-card" data-intensity="Low">
+              <div class="pref-card-header">
+                <span class="pref-card-name">Low Intensity</span>
+                <span class="pref-card-check">✓</span>
+              </div>
+              <span class="pref-card-sub text-emerald">Gentle &amp; Restorative</span>
+              <p class="pref-card-desc">Focus on form mastery, low impact, active joint mobility, and minimal CNS fatigue.</p>
+            </div>
+
+            <div class="pref-card active" data-intensity="Medium">
+              <div class="pref-card-header">
+                <span class="pref-card-name">Medium Intensity</span>
+                <span class="pref-card-check">✓</span>
+              </div>
+              <span class="pref-card-sub text-cyan">Balanced Progression</span>
+              <p class="pref-card-desc">Moderate RPE, sustainable volume, progressive challenge, and steady growth.</p>
+            </div>
+
+            <div class="pref-card" data-intensity="High">
+              <div class="pref-card-header">
+                <span class="pref-card-name">High Intensity</span>
+                <span class="pref-card-check">✓</span>
+              </div>
+              <span class="pref-card-sub text-rose">Demanding &amp; High Effort</span>
+              <p class="pref-card-desc">Push limits with higher training volume, challenging pacing, and heavy compound lifting.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Experience Selection -->
+        <div class="preference-section">
+          <label class="pref-label">Lifting &amp; Sport Experience</label>
+          <div class="pref-cards-grid">
+            <div class="pref-card active" data-exp="Beginner">
+              <div class="pref-card-header">
+                <span class="pref-card-name">Beginner</span>
+                <span class="pref-card-check">✓</span>
+              </div>
+              <span class="pref-card-sub text-cyan">0 - 1 Years Training</span>
+              <p class="pref-card-desc">Mastering exercise fundamentals, form, and establishing neurological adaptations.</p>
+            </div>
+
+            <div class="pref-card" data-exp="Intermediate">
+              <div class="pref-card-header">
+                <span class="pref-card-name">Intermediate</span>
+                <span class="pref-card-check">✓</span>
+              </div>
+              <span class="pref-card-sub text-cyan">1 - 3 Years Training</span>
+              <p class="pref-card-desc">Experienced with compound movements, ready for periodized loading and volume.</p>
+            </div>
+
+            <div class="pref-card" data-exp="Advanced">
+              <div class="pref-card-header">
+                <span class="pref-card-name">Advanced</span>
+                <span class="pref-card-check">✓</span>
+              </div>
+              <span class="pref-card-sub text-cyan">3+ Years Dedicated</span>
+              <p class="pref-card-desc">High training fluency, capable of managing heavy volume, specialization, and intensity.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Equipment Selection -->
+        <div class="preference-section">
+          <label class="pref-label">Equipment Access</label>
+          <select id="equipment-select" class="form-select">
+            <option value="Gym (Full Access)" selected>Commercial Gym (Full barbells, dumbbells, cables, machines)</option>
+            <option value="Dumbbells Only">Home Gym (Dumbbells &amp; adjustable bench)</option>
+            <option value="Bodyweight &amp; Calisthenics">Bodyweight Only (No weights required, pull-up bar optional)</option>
+          </select>
+        </div>
+
+        <div class="step-actions between border-top">
+          <button type="button" id="back-to-step-2-btn" class="btn-secondary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            <span>Back</span>
+          </button>
+          <button type="button" id="generate-plan-btn" class="btn-generate">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+            <span>Generate My 7-Day Plan</span>
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <!-- AI Generation Modal / Overlay -->
+    <div id="loading-overlay" class="modal-overlay" style="display: none;">
+      <div class="loading-box">
+        <div class="pulse-radar">
+          <div class="radar-ping"></div>
+          <div class="radar-core">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="spin-icon">
+              <path d="M6 4v16M18 4v16M2 8h4M18 8h4M2 16h4M18 16h4M6 12h12"/>
+            </svg>
+          </div>
+        </div>
+        <h3 class="loading-heading">Gemini AI Engine Active</h3>
+        <p id="loading-stage-text" class="loading-sub">Analyzing your biomechanics &amp; metrics...</p>
+        <p class="loading-sub-minor">Computing physiological progression, recovery indices, and exercise combinations.</p>
+        <div class="loading-bar-wrap">
+          <div class="loading-bar-active"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: Workout Dashboard (Stitch fitbuddy_desktop_ai_plan_generation) -->
+    <section id="dashboard-view" class="dashboard-container" style="display: none;">
+      <!-- Athlete Profile Header Card -->
+      <div class="athlete-banner">
+        <div class="athlete-info">
+          <div class="avatar-badge" id="athlete-avatar">A</div>
+          <div class="athlete-details">
+            <h2 id="plan-title-heading" class="athlete-name">7-Day Workout Routine</h2>
+            <div class="meta-badges">
+              <span id="badge-goal" class="badge badge-emerald">Goal: Muscle Gain</span>
+              <span id="badge-intensity" class="badge badge-cyan">Medium Intensity</span>
+              <span id="badge-exp" class="badge badge-amber">Beginner Level</span>
+              <span id="badge-weight" class="badge badge-slate">68 kg</span>
+            </div>
+            <p id="plan-overview-text" class="plan-summary">
+              Custom periodized training routine built by Gemini AI.
+            </p>
+          </div>
+        </div>
+
+        <div class="athlete-actions">
+          <button id="btn-re-eval" class="btn-secondary sm">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+            <span>New Routine</span>
+          </button>
+          <button id="btn-print-plan" class="btn-secondary sm">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+            <span>Print</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Safety Directive Alert -->
+      <div id="safety-alert" class="safety-alert">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        <span id="safety-directive-text"><strong>Safety Directive:</strong> Always warm up thoroughly and maintain strict form.</span>
+      </div>
+
+      <!-- Nutrition & Fuel Card -->
+      <div class="nutrition-card">
+        <div class="nutrition-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
+        </div>
+        <div class="nutrition-content">
+          <div class="nutrition-badge-row">
+            <span class="nutrition-badge">NUTRITION &amp; RECOVERY FUEL RECOMMENDATION</span>
+            <span id="nutrition-goal-tag" class="tag-minor">Targeted Goal</span>
+          </div>
+          <p id="nutrition-tip-body" class="nutrition-text">
+            Loading tailored recovery and fueling advice...
+          </p>
+          <span id="nutrition-disclaimer-text" class="nutrition-disclaimer">
+            This information is for general educational and wellness purposes only, not medical diagnosis or treatment.
+          </span>
+        </div>
+      </div>
+
+      <!-- 7-Day Routine Section -->
+      <div class="schedule-section">
+        <div class="schedule-header">
+          <div>
+            <h3 class="schedule-title">7-Day Workout Routine</h3>
+            <p class="schedule-subtitle">Periodized distribution of muscle groups, sets, repetitions, and rest intervals.</p>
+          </div>
+          <div class="view-toggles">
+            <button id="view-grid-btn" class="toggle-btn active">All 7 Days Grid</button>
+            <button id="view-tabs-btn" class="toggle-btn">Day Focus</button>
+          </div>
+        </div>
+
+        <!-- Tabbed Day View (Hidden by default) -->
+        <div id="tabbed-day-view" class="tabbed-view" style="display: none;">
+          <div id="day-tabs-nav" class="day-tabs-nav"></div>
+          <div id="active-day-detail" class="active-day-card"></div>
+        </div>
+
+        <!-- 7 Days Grid -->
+        <div id="days-grid" class="days-grid"></div>
+      </div>
+
+      <!-- Conversational Feedback Section (Stitch interactive design) -->
+      <div class="feedback-card">
+        <div class="feedback-header">
+          <div class="feedback-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          </div>
+          <div>
+            <h3 class="feedback-title">Want to modify or optimize your plan?</h3>
+            <p class="feedback-subtitle">
+              Describe any adjustments in plain English (e.g. increase cardio volume, add more rest, swap exercises, or focus on specific muscle groups). Gemini AI will regenerate an updated 7-day schedule immediately.
+            </p>
+          </div>
+        </div>
+
+        <!-- Quick Idea Chips -->
+        <div class="chips-row">
+          <span class="chips-lead">Quick suggestions:</span>
+          <button type="button" class="quick-chip" data-text="🏃‍♂️ Add more cardio & HIIT finishers">🏃‍♂️ Add more cardio &amp; HIIT</button>
+          <button type="button" class="quick-chip" data-text="🧘 I need more rest days to recover properly">🧘 More rest days</button>
+          <button type="button" class="quick-chip" data-text="⚡ Reduce the overall workout intensity & weight loads">⚡ Reduce intensity</button>
+          <button type="button" class="quick-chip" data-text="🦵 Focus more on legs, glutes & core stability">🦵 Focus on legs &amp; core</button>
+          <button type="button" class="quick-chip" data-text="💪 Focus more on chest, back & upper body hypertrophy">💪 Focus on chest &amp; upper body</button>
+          <button type="button" class="quick-chip" data-text="⏱️ Shorten workouts to fit under 40 minutes">⏱️ Shorten under 40 mins</button>
+        </div>
+
+        <form id="feedback-form">
+          <div class="textarea-wrap">
+            <textarea id="feedback-input" class="form-textarea" rows="3" placeholder="Enter your feedback here (e.g., 'I want more cardio and core strength', 'Focus more on legs', 'I need 2 rest days instead of 1')..."></textarea>
+          </div>
+          <div class="feedback-actions">
+            <button type="submit" id="submit-feedback-btn" class="btn-update">
+              <span class="btn-text">Update My Plan</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+          </div>
+        </form>
+
+        <div id="feedback-spinner" class="feedback-spinner-row" style="display: none;">
+          <div class="spinner-sm"></div>
+          <span>Gemini AI is revising your 7-day workout plan...</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-section">
+      <div class="section-container">
+        <div class="section-title-wrap">
+          <span class="section-badge">SCIENTIFIC FITNESS ARCHITECTURE</span>
+          <h2 class="section-heading">How FitBuddy Works</h2>
+          <p class="section-desc">Built to solve the problem of generic online templates with adaptive physiological planning.</p>
+        </div>
+
+        <div class="how-grid">
+          <div class="how-card">
+            <div class="how-number">01</div>
+            <h3 class="how-title">Biometric Calibration</h3>
+            <p class="how-desc">FitBuddy takes your age, weight, target intensity, and experience to calculate appropriate lifting volume and frequency without overtraining.</p>
+          </div>
+          <div class="how-card">
+            <div class="how-number">02</div>
+            <h3 class="how-title">Gemini AI Synthesis</h3>
+            <p class="how-desc">Google Gemini AI generates a structured 7-day periodized routine with compound movements, sets, target reps, and rest intervals.</p>
+          </div>
+          <div class="how-card">
+            <div class="how-number">03</div>
+            <h3 class="how-title">Continuous Feedback Loop</h3>
+            <p class="how-desc">Provide natural language feedback any time. FitBuddy iterates on the schedule while preserving safety guidelines and progressive overload.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- History Modal -->
+    <div id="history-modal" class="modal-overlay" style="display: none;">
+      <div class="history-card-modal">
+        <div class="modal-header">
+          <div>
+            <h3 class="modal-title">Your Workout History</h3>
+            <p class="modal-subtitle">Previous iterations and saved workout routines.</p>
+          </div>
+          <button id="close-history-modal" class="close-btn">&times;</button>
+        </div>
+        <div id="history-items-container" class="modal-body">
+          <p class="empty-text">No previous routines saved yet.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="footer-logo">FitBuddy</div>
+        <p class="footer-sub">Engineered with Google Gemini AI, FastAPI &amp; SQLite.</p>
+      </div>
+      <div class="footer-disclaimer">
+        Disclaimer: FitBuddy provides general exercise and wellness advice for educational purposes. Consult a licensed medical practitioner before starting any intensive fitness regimen.
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

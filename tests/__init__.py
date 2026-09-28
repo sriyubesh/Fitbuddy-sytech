@@ -1,0 +1,3 @@
+"""
+FitBuddy automated test suite.
+"""
